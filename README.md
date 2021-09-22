@@ -1,6 +1,25 @@
 # Assignment 1
 In this assignment, we are going to be investigating the actual performance of different sorting methods.  Additionally, we will implement 1 sorting method on a linked list.  
 
+# TASKS - WORKLOAD
+
+- 1.)
+  - a.	Bubble sort -Travis
+  - b.	Insertion sort-Guillermo
+  - c.	Merge-sort-Charlie
+  - d.	Quicksort-Avery
+  - e.	Heap-sort-Travis
+  - f.	Counting sort-Avery
+  - g.	Radix-sort-Charlie
+
+##### Sort arrays size n= 10,100,500,5000,2500
+- 2.) get runtimes on all of these
+- 3.) 50 student single link list-Charlie API
+  - First Name, Last Name, MNumber and may include any other additional information you wish
+  - Bubble sort / merge-sort / quicksort -Charlie Adaptation?
+- 4.) Group write-up with instructions:
+
+
 # Introduction to GitHub and Collaboration with other developers
 Before starting to work in this repository there are a few things that one should know for anyone that does not have experience collaborating within GitHub: 
 
