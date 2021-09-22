@@ -29,6 +29,11 @@ git status
 - Which files are currently staged and which are not 
 
 Before sending your changes over to the repo, you need to staged them. You do this by using:
+```bash
+git add .
+```
+
+`git add .` will add all changes to staging.
 
 ```bash
 git commit -m <commit message here>
