@@ -131,25 +131,28 @@ public:
 //Merge sort method
 
 //Quicksort method
+// Partition function utilized in quick sort method.
 int partition(int array[], int low_index, int high_index) {
   int midpoint = low_index + (high_index - low_index) / 2;
   int pivot = array[midpoint];
   int temp = 0;
 
   bool find_high_index = false;
-
+  // Finding index of highest element.
   while (!find_high_index) {
+    // Checks elements below pivot are less than pivot.
     while (array[low_index] < pivot) {
       low_index += 1;
     }
-
+    // Checks elements above pivot are greater than pivot.
     while (pivot < array[high_index]) {
       high_index -= 1;
     }
-
+    // Ends partitioning if low index and high index move past pivot or meet.
     if (low_index >= high_index) {
       find_high_index = true;
     } else {
+      // Continues partitioning by reassigning elements around pivot.
       temp = array[low_index];
       array[low_index] = array[high_index];
       array[high_index] = temp;
@@ -159,9 +162,13 @@ int partition(int array[], int low_index, int high_index) {
   }
   return high_index;
 }
+// Quick sort function utilizing partition function.
 void quickSort(int array[], int low_index, int high_index) {
+  // Continues until low index is greater than high index.
   if (low_index < high_index) {
+    // Calls partition function to partition elements around pivot.
     int partition_index = partition(array, low_index, high_index);
+    // Uses recursion to sort each partition on either side of pivot.
     quickSort(array, low_index, partition_index - 1);
     quickSort(array, partition_index + 1, high_index);
   }
