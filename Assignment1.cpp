@@ -131,6 +131,41 @@ public:
 //Merge sort method
 
 //Quicksort method
+int partition(int array[], int low_index, int high_index) {
+  int midpoint = low_index + (high_index - low_index) / 2;
+  int pivot = array[midpoint];
+  int temp = 0;
+
+  bool find_high_index = false;
+
+  while (!find_high_index) {
+    while (array[low_index] < pivot) {
+      low_index += 1;
+    }
+
+    while (pivot < array[high_index]) {
+      high_index -= 1;
+    }
+
+    if (low_index >= high_index) {
+      find_high_index = true;
+    } else {
+      temp = array[low_index];
+      array[low_index] = array[high_index];
+      array[high_index] = temp;
+      low_index += 1;
+      high_index -= 1;
+    }
+  }
+  return high_index;
+}
+void quickSort(int array[], int low_index, int high_index) {
+  if (low_index < high_index) {
+    int partition_index = partition(array, low_index, high_index);
+    quickSort(array, low_index, partition_index - 1);
+    quickSort(array, partition_index + 1, high_index);
+  }
+}
 
 //Heap-sort method
 
@@ -194,6 +229,7 @@ int main()
 			break;
 		case 4:
 			//Quicksort
+            quickSort(arr, 0, sampleSizes[j]);
 			break;
 		case 5:
 			//Heap-sort
