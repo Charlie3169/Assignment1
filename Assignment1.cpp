@@ -177,6 +177,41 @@ void quickSort(int array[], int low_index, int high_index) {
 //Heap-sort method
 
 //Counting sort  method
+void countSort(int array[], int size) {
+  int max = array[0];
+  int sorted[size + 1];
+  int i = 0;
+
+  // Find max element.
+  for (i = 0; i < size; ++i) {
+    if (array[i] > max) {
+      max = array[i];
+    }
+  }
+
+  // Declare count array and initialize to zero set.
+  int count[max + 1];
+  for (i = 0; i <= max; ++i) {
+    count[i] = 0;
+  }
+
+  // Find and store the count of each element in array.
+  for (i = 0; i < size; ++i) {
+    count[array[i]]++;
+  }
+
+  // Take index from original array. Use to find element in count array.
+  // Copy element into sorted array.
+  for (i = size - 1; i >= 0; --i) {
+    sorted[count[array[i]] - 1] = array[i];
+    count[array[i]]--;
+  }
+
+  // Copy sorted array to original array.
+  for (int i = 0; i < size; ++i) {
+    array[i] = sorted[i];
+  }
+}
 
 //Radix sort method
 
@@ -243,6 +278,7 @@ int main()
 			break;
 		case 6:
 			//Counting sort
+            countSort(arr, sampleSizes[j]);
 			break;
 		case 7:
 			//Radix sort
