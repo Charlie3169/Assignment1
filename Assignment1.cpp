@@ -162,6 +162,8 @@ int partition(int array[], int low_index, int high_index) {
   }
   return high_index;
 }
+
+
 // Quick sort function utilizing partition function.
 void quickSort(int array[], int low_index, int high_index) {
   // Continues until low index is greater than high index.
@@ -215,7 +217,6 @@ void countSort(int array[], int size) {
 
 //Radix sort method
 
-//Create random array with values from 0 to 2n
 
 typedef chrono::high_resolution_clock Clock;
 
