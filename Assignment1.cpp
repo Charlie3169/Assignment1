@@ -8,6 +8,7 @@ using namespace std;
 
 // hi testing
 // hello testing
+// Testing branch
 /*
 	Student class representing a student
 */
@@ -131,14 +132,92 @@ public:
 //Merge sort method
 
 //Quicksort method
+// Partition function utilized in quick sort method.
+int partition(int array[], int low_index, int high_index) {
+  int midpoint = low_index + (high_index - low_index) / 2;
+  int pivot = array[midpoint];
+  int temp = 0;
+
+  bool find_high_index = false;
+  // Finding index of highest element.
+  while (!find_high_index) {
+    // Checks elements below pivot are less than pivot.
+    while (array[low_index] < pivot) {
+      low_index += 1;
+    }
+    // Checks elements above pivot are greater than pivot.
+    while (pivot < array[high_index]) {
+      high_index -= 1;
+    }
+    // Ends partitioning if low index and high index move past pivot or meet.
+    if (low_index >= high_index) {
+      find_high_index = true;
+    } else {
+      // Continues partitioning by reassigning elements around pivot.
+      temp = array[low_index];
+      array[low_index] = array[high_index];
+      array[high_index] = temp;
+      low_index += 1;
+      high_index -= 1;
+    }
+  }
+  return high_index;
+}
+
+
+// Quick sort function utilizing partition function.
+void quickSort(int array[], int low_index, int high_index) {
+  // Continues until low index is greater than high index.
+  if (low_index < high_index) {
+    // Calls partition function to partition elements around pivot.
+    int partition_index = partition(array, low_index, high_index);
+    // Uses recursion to sort each partition on either side of pivot.
+    quickSort(array, low_index, partition_index - 1);
+    quickSort(array, partition_index + 1, high_index);
+  }
+}
 
 //Heap-sort method
 
 //Counting sort  method
+void countSort(int array[], int size) {
+  int max = array[0];
+  int sorted[size + 1];
+  int i = 0;
+
+  // Find max element.
+  for (i = 0; i < size; ++i) {
+    if (array[i] > max) {
+      max = array[i];
+    }
+  }
+
+  // Declare count array and initialize to zero set.
+  int count[max + 1];
+  for (i = 0; i <= max; ++i) {
+    count[i] = 0;
+  }
+
+  // Find and store the count of each element in array.
+  for (i = 0; i < size; ++i) {
+    count[array[i]]++;
+  }
+
+  // Take index from original array. Use to find element in count array.
+  // Copy element into sorted array.
+  for (i = size - 1; i >= 0; --i) {
+    sorted[count[array[i]] - 1] = array[i];
+    count[array[i]]--;
+  }
+
+  // Copy sorted array to original array.
+  for (int i = 0; i < size; ++i) {
+    array[i] = sorted[i];
+  }
+}
 
 //Radix sort method
 
-//Create random array with values from 0 to 2n
 
 typedef chrono::high_resolution_clock Clock;
 
@@ -194,12 +273,14 @@ int main()
 			break;
 		case 4:
 			//Quicksort
+            quickSort(arr, 0, sampleSizes[j]);
 			break;
 		case 5:
 			//Heap-sort
 			break;
 		case 6:
 			//Counting sort
+            countSort(arr, sampleSizes[j]);
 			break;
 		case 7:
 			//Radix sort
