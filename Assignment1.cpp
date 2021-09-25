@@ -130,6 +130,7 @@ public:
 //Insertion sort method
 
 //Merge sort method
+////////////////////////////////////////////////////////////
 void merge(int array[], int const left, int const mid, int const right)
 {
     int const subArrayOne = mid - left + 1;
@@ -163,16 +164,15 @@ void merge(int array[], int const left, int const mid, int const right)
         }
         indexOfMergedArray++;
     }
-    // Copy the remaining elements of
-    // left[], if there are any
+    // Copy the remaining elements of left[], if there are any     
     while (indexOfSubArrayOne < subArrayOne) 
 	{
         array[indexOfMergedArray] = leftArray[indexOfSubArrayOne];
         indexOfSubArrayOne++;
         indexOfMergedArray++;
     }
-    // Copy the remaining elements of
-    // right[], if there are any
+
+    // Copy the remaining elements of right[], if there are any    
     while (indexOfSubArrayTwo < subArrayTwo) 
 	{
         array[indexOfMergedArray] = rightArray[indexOfSubArrayTwo];
@@ -194,9 +194,11 @@ void mergeSort(int array[], int const begin, int const end)
     mergeSort(array, mid + 1, end);
     merge(array, begin, mid, end);
 }
+////////////////////////////////////////////////////////////
 
 
 //Quicksort method
+////////////////////////////////////////////////////////////
 
 // Partition function utilized in quick sort method.
 int partition(int array[], int low_index, int high_index) {
@@ -242,10 +244,12 @@ void quickSort(int array[], int low_index, int high_index) {
     quickSort(array, partition_index + 1, high_index);
   }
 }
+////////////////////////////////////////////////////////////
 
 //Heap-sort method
 
 //Counting sort  method
+////////////////////////////////////////////////////////////
 void countSort(int array[], int size) {
   int max = array[0];
   int sorted[size + 1];
@@ -281,8 +285,53 @@ void countSort(int array[], int size) {
     array[i] = sorted[i];
   }
 }
+////////////////////////////////////////////////////////////
 
 //Radix sort method
+////////////////////////////////////////////////////////////
+
+int getMax(int arr[], int n)
+{
+    int mx = arr[0];
+    for (int i = 1; i < n; i++)
+        if (arr[i] > mx)
+            mx = arr[i];
+    return mx;
+}
+
+void helperSort(int arr[], int n, int exp)
+{
+    int output[n]; // output array
+    int i, count[10] = { 0 };
+ 
+    // Store count of occurrences in count[]
+    for (i = 0; i < n; i++)
+        count[(arr[i] / exp) % 10]++;
+ 
+    // Change count[i] so that count[i] now contains actual
+    //  position of this digit in output[]
+    for (i = 1; i < 10; i++)
+        count[i] += count[i - 1];
+ 
+    // Build the output array
+    for (i = n - 1; i >= 0; i--) 
+	{
+        output[count[(arr[i] / exp) % 10] - 1] = arr[i];
+        count[(arr[i] / exp) % 10]--;
+    } 
+    
+    for (i = 0; i < n; i++)
+        arr[i] = output[i];
+}
+ 
+void radixSort(int arr[], int n)
+{    
+    int m = getMax(arr, n); 
+    
+    for (int exp = 1; m / exp > 0; exp *= 10)
+        helperSort(arr, n, exp);
+}
+////////////////////////////////////////////////////////////
 
 
 typedef chrono::high_resolution_clock Clock;
@@ -351,6 +400,7 @@ int main()
 			break;
 		case 7:
 			//Radix sort
+			radixSort(arr, sampleSizes[j]);
 			break;
 
 		default:
