@@ -168,7 +168,24 @@ public:
 };
 
 //Bubble sort method
-
+void bubbleSort(int array[], int const ArraySize)
+{
+//Bubble sort iterates through a list, comparing and swapping adjacent elements with nested loops, bubble sort has a runtime of O(N)^2
+   int i, j, temp = 0;
+   // Given a list with N elements, the outer i-loop iterates N - 1 times. Each iteration moves the largest element into sorted position
+   for (i = 0; i < ArraySize - 1; i++) {
+      // Inner loop j iterates through all adjacent pairs, swapping adjacent elements as needed, except for i pairs that are already in the correct position.
+       for (j = 0; j < ArraySize - i - 1; j++) {
+         if (array[j] > array[j+1]) {
+            // Stores array as temp before swapping element values
+            temp = array[j];
+            array[j] = array[j + 1];
+            array[j + 1] = temp;
+         }
+      }
+   }
+}
+////////////////////////////////////////////////////////////
 //Insertion sort method
 ////////////////////////////////////////////////////////////
 void insertionSort( int array[], int const arraySize )
@@ -305,9 +322,46 @@ void quickSort( int array[], int low_index, int high_index ) {
 	}
 }
 ////////////////////////////////////////////////////////////
-
 //Heap-sort method
+// This function will be used to take the array and transform it to the heap
+void MaxHeapPercolateDown(int nodeIndex, int array[], int ArraySize) {
+   int childIndex = 2 * nodeIndex + 1;
+   int value = array[nodeIndex];
+   int i = 0;
 
+   while (childIndex < ArraySize) {
+      // Find the max among the node and all the node's children and initialize the max index
+      int maxValue = value;
+      int maxIndex = -1;
+      // All children are checked before any child key is moved into the parent
+      for (i = 0; i < 2 && i + childIndex < ArraySize; i++) {
+         if (array[i + childIndex] > maxValue) {
+            maxValue = array[i + childIndex];
+            maxIndex = i + childIndex;
+         }
+      }
+      if (maxValue == value) {
+         return;
+      }
+      else {
+         swap (array[nodeIndex], array[maxIndex]);
+         nodeIndex = maxIndex;
+         childIndex = 2 * nodeIndex + 1;
+      }
+   }
+}
+void heapSort(int array[], int ArraySize) {
+   int i = 0;
+   // Calls the MaxHeap function to heapify array then builds and sorts the array in reverse
+   for (i = ArraySize / 2 - 1; i >= 0; i--) {
+      MaxHeapPercolateDown(i, array, ArraySize);
+   }
+   for (i = ArraySize - 1; i > 0; i--) {
+      swap (array[0], array[i]);
+      MaxHeapPercolateDown(0, array, i);
+   }
+}
+////////////////////////////////////////////////////////////
 //Counting sort  method
 ////////////////////////////////////////////////////////////
 
@@ -424,7 +478,7 @@ int main()
 		//Create random array from sampleSizes[j]
 		int* arr = new int[sampleSizes[j]];
 
-		// Populate Array with random intigers ranging from 0 to 2n where n is the size of array
+		// Populate Array with random integers ranging from 0 to 2n where n is the size of array
 		for (int i = 0; i < sampleSizes[j]; i++) {
 			arr[i] = (rand() % (2 * sampleSizes[j]));
 		}
@@ -435,6 +489,7 @@ int main()
 		{
 		case 1:
 			//Bubble sort
+      bubbleSort(arr, sampleSizes[j]);
 			algoPicked = "Bubble";
 			break;
 		case 2:
@@ -453,7 +508,8 @@ int main()
 			break;
 		case 5:
 			//Heap-sort
-			algoPicked = "Heap";
+			heapSort(arr, sampleSizes[j]);
+      algoPicked = "Heap";
 			break;
 		case 6:
 			//Counting sort
