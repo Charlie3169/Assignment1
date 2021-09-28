@@ -3,12 +3,10 @@
 #include <chrono>
 #include <cstdlib>
 #include <string>
+#include <fstream>
 
 using namespace std;
 
-// hi testing
-// hello testing
-// Testing branch
 /*
 	Student class representing a student
 */
@@ -21,7 +19,12 @@ private:
 
 public:
 
-	Student();
+	Student()
+	{
+		firstName = "";
+		lastName = "";
+		mNumber = 0;
+	}
 
 	Student( string firstName, string lastName, int mNumber )
 	{
@@ -71,10 +74,7 @@ private:
 	// Head pointer | Beginning of list
 	nodePtr head;
 
-	// Current Pointer | Used to designate current element
 	nodePtr curr;
-
-	// Temporary pointer
 	nodePtr temp;
 
 public:
@@ -104,15 +104,12 @@ public:
 	// Appends a new node to the list
 	void push( const Student& newStudent )
 	{
-		nodePtr newNode = new Node;
-		newNode->student = newStudent;
-		newNode->next = NULL;
+		nodePtr n = new Node;
 
-		if (head == NULL)
-		{
-			head = newNode;
-		}
-		else
+		n->next = NULL;
+		n->student = newStudent;
+
+		if (head != NULL)
 		{
 			curr = head;
 
@@ -120,7 +117,52 @@ public:
 			{
 				curr = curr->next;
 			}
-			curr->next = newNode;
+			curr->next = n;
+		}
+		else
+		{
+			head = n;
+		}
+	}
+
+	void getStudentData( string const fileName )
+	{
+		ifstream studentFile( fileName );
+
+		if (studentFile.is_open())
+		{
+			string firstName, lastName, mNum;
+			int mNumber;
+
+			while (!studentFile.eof())
+			{
+				studentFile >> firstName >> lastName >> mNum;
+
+				mNumber = stoi( mNum );
+
+				Student newStudent( firstName, lastName, mNumber );
+				push( newStudent );
+			}
+
+			studentFile.close();
+		}
+		else
+		{
+			cout << "Failed to load data..." << endl;
+		}
+	}
+
+	void printData()
+	{
+		curr = head;
+
+		while (curr != NULL)
+		{
+			string name = curr->student.getFirstName() + " " + curr->student.getLastName();
+
+			cout << name << " " << curr->student.getMNumber() << endl;
+
+			curr = curr->next;
 		}
 	}
 };
@@ -145,121 +187,139 @@ void bubbleSort(int array[], int const ArraySize)
 }
 ////////////////////////////////////////////////////////////
 //Insertion sort method
+////////////////////////////////////////////////////////////
+void insertionSort( int array[], int const arraySize )
+{
+	int j, temp = 0;
+
+	for (int i = 1; i < arraySize; i++)
+	{
+		j = i;
+
+		while (j > 0 && array[j] < array[j - 1])
+		{
+			temp = array[j];
+			array[j] = array[j - 1];
+			array[j - 1] = temp;
+			j -= 1;
+		}
+	}
+}
+////////////////////////////////////////////////////////////
 
 //Merge sort method
 ////////////////////////////////////////////////////////////
-void merge(int array[], int const left, int const mid, int const right)
+void merge( int array[], int const left, int const mid, int const right )
 {
-    int const subArrayOne = mid - left + 1;
-    int const subArrayTwo = right - mid;
-  
-    // Create temp arrays
-    auto *leftArray = new int[subArrayOne],
-         *rightArray = new int[subArrayTwo];
-  
-    // Copy data to temp arrays leftArray[] and rightArray[]
-    for (int i = 0; i < subArrayOne; i++)
-        leftArray[i] = array[left + i];
-    for (int j = 0; j < subArrayTwo; j++)
-        rightArray[j] = array[mid + 1 + j];
-  
-    int indexOfSubArrayOne = 0, // Initial index of first sub-array
-        indexOfSubArrayTwo = 0; // Initial index of second sub-array
-    int indexOfMergedArray = left; // Initial index of merged array
-  
-    // Merge the temp arrays back into array[left..right]
-    while (indexOfSubArrayOne < subArrayOne && indexOfSubArrayTwo < subArrayTwo) 
-	{
-        if (leftArray[indexOfSubArrayOne] <= rightArray[indexOfSubArrayTwo]) 
-		{
-            array[indexOfMergedArray] = leftArray[indexOfSubArrayOne];
-            indexOfSubArrayOne++;
-        }
-        else {
-            array[indexOfMergedArray] = rightArray[indexOfSubArrayTwo];
-            indexOfSubArrayTwo++;
-        }
-        indexOfMergedArray++;
-    }
-    // Copy the remaining elements of left[], if there are any     
-    while (indexOfSubArrayOne < subArrayOne) 
-	{
-        array[indexOfMergedArray] = leftArray[indexOfSubArrayOne];
-        indexOfSubArrayOne++;
-        indexOfMergedArray++;
-    }
+	int const subArrayOne = mid - left + 1;
+	int const subArrayTwo = right - mid;
 
-    // Copy the remaining elements of right[], if there are any    
-    while (indexOfSubArrayTwo < subArrayTwo) 
+	// Create temp arrays
+	auto* leftArray = new int[subArrayOne],
+		* rightArray = new int[subArrayTwo];
+
+	// Copy data to temp arrays leftArray[] and rightArray[]
+	for (int i = 0; i < subArrayOne; i++)
+		leftArray[i] = array[left + i];
+	for (int j = 0; j < subArrayTwo; j++)
+		rightArray[j] = array[mid + 1 + j];
+
+	int indexOfSubArrayOne = 0, // Initial index of first sub-array
+		indexOfSubArrayTwo = 0; // Initial index of second sub-array
+	int indexOfMergedArray = left; // Initial index of merged array
+
+	// Merge the temp arrays back into array[left..right]
+	while (indexOfSubArrayOne < subArrayOne && indexOfSubArrayTwo < subArrayTwo)
 	{
-        array[indexOfMergedArray] = rightArray[indexOfSubArrayTwo];
-        indexOfSubArrayTwo++;
-        indexOfMergedArray++;
-    }
+		if (leftArray[indexOfSubArrayOne] <= rightArray[indexOfSubArrayTwo])
+		{
+			array[indexOfMergedArray] = leftArray[indexOfSubArrayOne];
+			indexOfSubArrayOne++;
+		}
+		else {
+			array[indexOfMergedArray] = rightArray[indexOfSubArrayTwo];
+			indexOfSubArrayTwo++;
+		}
+		indexOfMergedArray++;
+	}
+	// Copy the remaining elements of left[], if there are any
+	while (indexOfSubArrayOne < subArrayOne)
+	{
+		array[indexOfMergedArray] = leftArray[indexOfSubArrayOne];
+		indexOfSubArrayOne++;
+		indexOfMergedArray++;
+	}
+
+	// Copy the remaining elements of right[], if there are any
+	while (indexOfSubArrayTwo < subArrayTwo)
+	{
+		array[indexOfMergedArray] = rightArray[indexOfSubArrayTwo];
+		indexOfSubArrayTwo++;
+		indexOfMergedArray++;
+	}
 }
-  
+
 // begin is for left index and end is
 // right index of the sub-array
 // of arr to be sorted */
-void mergeSort(int array[], int const begin, int const end)
+void mergeSort( int array[], int const begin, int const end )
 {
-    if (begin >= end)
-        return; // Returns recursively
-  
-    int mid = begin + (end - begin) / 2;
-    mergeSort(array, begin, mid);
-    mergeSort(array, mid + 1, end);
-    merge(array, begin, mid, end);
+	if (begin >= end)
+		return; // Returns recursively
+
+	int mid = begin + (end - begin) / 2;
+	mergeSort( array, begin, mid );
+	mergeSort( array, mid + 1, end );
+	merge( array, begin, mid, end );
 }
 ////////////////////////////////////////////////////////////
-
 
 //Quicksort method
 ////////////////////////////////////////////////////////////
 
 // Partition function utilized in quick sort method.
-int partition(int array[], int low_index, int high_index) {
-  int midpoint = low_index + (high_index - low_index) / 2;
-  int pivot = array[midpoint];
-  int temp = 0;
+int partition( int array[], int low_index, int high_index ) {
+	int midpoint = low_index + (high_index - low_index) / 2;
+	int pivot = array[midpoint];
+	int temp = 0;
 
-  bool find_high_index = false;
-  // Finding index of highest element.
-  while (!find_high_index) {
-    // Checks elements below pivot are less than pivot.
-    while (array[low_index] < pivot) {
-      low_index += 1;
-    }
-    // Checks elements above pivot are greater than pivot.
-    while (pivot < array[high_index]) {
-      high_index -= 1;
-    }
-    // Ends partitioning if low index and high index move past pivot or meet.
-    if (low_index >= high_index) {
-      find_high_index = true;
-    } else {
-      // Continues partitioning by reassigning elements around pivot.
-      temp = array[low_index];
-      array[low_index] = array[high_index];
-      array[high_index] = temp;
-      low_index += 1;
-      high_index -= 1;
-    }
-  }
-  return high_index;
+	bool find_high_index = false;
+	// Finding index of highest element.
+	while (!find_high_index) {
+		// Checks elements below pivot are less than pivot.
+		while (array[low_index] < pivot) {
+			low_index += 1;
+		}
+		// Checks elements above pivot are greater than pivot.
+		while (pivot < array[high_index]) {
+			high_index -= 1;
+		}
+		// Ends partitioning if low index and high index move past pivot or meet.
+		if (low_index >= high_index) {
+			find_high_index = true;
+		}
+		else {
+			// Continues partitioning by reassigning elements around pivot.
+			temp = array[low_index];
+			array[low_index] = array[high_index];
+			array[high_index] = temp;
+			low_index += 1;
+			high_index -= 1;
+		}
+	}
+	return high_index;
 }
 
-
 // Quick sort function utilizing partition function.
-void quickSort(int array[], int low_index, int high_index) {
-  // Continues until low index is greater than high index.
-  if (low_index < high_index) {
-    // Calls partition function to partition elements around pivot.
-    int partition_index = partition(array, low_index, high_index);
-    // Uses recursion to sort each partition on either side of pivot.
-    quickSort(array, low_index, partition_index - 1);
-    quickSort(array, partition_index + 1, high_index);
-  }
+void quickSort( int array[], int low_index, int high_index ) {
+	// Continues until low index is greater than high index.
+	if (low_index < high_index) {
+		// Calls partition function to partition elements around pivot.
+		int partition_index = partition( array, low_index, high_index );
+		// Uses recursion to sort each partition on either side of pivot.
+		quickSort( array, low_index, partition_index - 1 );
+		quickSort( array, partition_index + 1, high_index );
+	}
 }
 ////////////////////////////////////////////////////////////
 //Heap-sort method
@@ -304,89 +364,89 @@ void heapSort(int array[], int ArraySize) {
 ////////////////////////////////////////////////////////////
 //Counting sort  method
 ////////////////////////////////////////////////////////////
-void countSort(int array[], int size) {
-  int max = array[0];
-  int sorted[size + 1];
-  int i = 0;
 
-  // Find max element.
-  for (i = 0; i < size; ++i) {
-    if (array[i] > max) {
-      max = array[i];
-    }
-  }
+void countSort( int array[], int size ) {
+	int max = array[0];
+	int* sorted = new int[size + 1];
+	int i = 0;
 
-  // Declare count array and initialize to zero set.
-  int count[max + 1];
-  for (i = 0; i <= max; ++i) {
-    count[i] = 0;
-  }
+	// Find max element.
+	for (i = 0; i < size; ++i) {
+		if (array[i] > max) {
+			max = array[i];
+		}
+	}
 
-  // Find and store the count of each element in array.
-  for (i = 0; i < size; ++i) {
-    count[array[i]]++;
-  }
+	// Declare count array and initialize to zero set.
+	int* count = new int[max + 1];
+	for (i = 0; i <= max; ++i) {
+		count[i] = 0;
+	}
 
-  // Take index from original array. Use to find element in count array.
-  // Copy element into sorted array.
-  for (i = size - 1; i >= 0; --i) {
-    sorted[count[array[i]] - 1] = array[i];
-    count[array[i]]--;
-  }
+	// Find and store the count of each element in array.
+	for (i = 0; i < size; ++i) {
+		count[array[i]]++;
+	}
 
-  // Copy sorted array to original array.
-  for (int i = 0; i < size; ++i) {
-    array[i] = sorted[i];
-  }
+	// Take index from original array. Use to find element in count array.
+	// Copy element into sorted array.
+	for (i = size - 1; i >= 0; --i) {
+		sorted[count[array[i]] - 1] = array[i];
+		count[array[i]]--;
+	}
+
+	// Copy sorted array to original array.
+	for (int i = 0; i < size; ++i) {
+		array[i] = sorted[i];
+	}
 }
 ////////////////////////////////////////////////////////////
 
 //Radix sort method
 ////////////////////////////////////////////////////////////
 
-int getMax(int arr[], int n)
+int getMax( int arr[], int n )
 {
-    int mx = arr[0];
-    for (int i = 1; i < n; i++)
-        if (arr[i] > mx)
-            mx = arr[i];
-    return mx;
+	int mx = arr[0];
+	for (int i = 1; i < n; i++)
+		if (arr[i] > mx)
+			mx = arr[i];
+	return mx;
 }
 
-void helperSort(int arr[], int n, int exp)
+void helperSort( int arr[], int n, int exp )
 {
-    int output[n]; // output array
-    int i, count[10] = { 0 };
- 
-    // Store count of occurrences in count[]
-    for (i = 0; i < n; i++)
-        count[(arr[i] / exp) % 10]++;
- 
-    // Change count[i] so that count[i] now contains actual
-    //  position of this digit in output[]
-    for (i = 1; i < 10; i++)
-        count[i] += count[i - 1];
- 
-    // Build the output array
-    for (i = n - 1; i >= 0; i--) 
+	int* output = new int[n]; // output array
+	int i, count[10] = { 0 };
+
+	// Store count of occurrences in count[]
+	for (i = 0; i < n; i++)
+		count[(arr[i] / exp) % 10]++;
+
+	// Change count[i] so that count[i] now contains actual
+	//  position of this digit in output[]
+	for (i = 1; i < 10; i++)
+		count[i] += count[i - 1];
+
+	// Build the output array
+	for (i = n - 1; i >= 0; i--)
 	{
-        output[count[(arr[i] / exp) % 10] - 1] = arr[i];
-        count[(arr[i] / exp) % 10]--;
-    } 
-    
-    for (i = 0; i < n; i++)
-        arr[i] = output[i];
+		output[count[(arr[i] / exp) % 10] - 1] = arr[i];
+		count[(arr[i] / exp) % 10]--;
+	}
+
+	for (i = 0; i < n; i++)
+		arr[i] = output[i];
 }
- 
-void radixSort(int arr[], int n)
-{    
-    int m = getMax(arr, n); 
-    
-    for (int exp = 1; m / exp > 0; exp *= 10)
-        helperSort(arr, n, exp);
+
+void radixSort( int arr[], int n )
+{
+	int m = getMax( arr, n );
+
+	for (int exp = 1; m / exp > 0; exp *= 10)
+		helperSort( arr, n, exp );
 }
 ////////////////////////////////////////////////////////////
-
 
 typedef chrono::high_resolution_clock Clock;
 
@@ -395,15 +455,11 @@ int main()
 	// Initialize seed
 	srand( (unsigned)time( 0 ) );
 
-	// Student Class works
-
-	Student s( "John", "Johnson", 123456 );
-	cout << s.getFirstName() << " " << s.getLastName() << " " << s.getMNumber() << endl;
-
 	const int numberOfSorts = 7;
 	const int sampleSizes[] = { 10, 100, 500, 5000, 250000 };
 
 	int input = 0;
+	string algoPicked;
 
 	cout << "1: Bubble" << endl
 		<< "2: Insertion" << endl
@@ -412,7 +468,7 @@ int main()
 		<< "5: Heap" << endl
 		<< "6: Counting" << endl
 		<< "7: Radix" << endl
-		<< "Enter the number of the sort to test: " << endl;
+		<< "Enter the number of the sort to test: ";
 
 	cin >> input;
 	cout << endl;
@@ -433,30 +489,37 @@ int main()
 		{
 		case 1:
 			//Bubble sort
-			bubbleSort(arr, sampleSizes[j]);
+      bubbleSort(arr, sampleSizes[j]);
+			algoPicked = "Bubble";
 			break;
 		case 2:
-			//Insertion sort
+			insertionSort( arr, sampleSizes[j] );
+			algoPicked = "Insertion";
 			break;
 		case 3:
 			//Merge sort
-			mergeSort(arr, 0, sampleSizes[j] - 1);
+			mergeSort( arr, 0, sampleSizes[j] - 1 );
+			algoPicked = "Merge";
 			break;
 		case 4:
 			//Quicksort
-            quickSort(arr, 0, sampleSizes[j]);
+			quickSort( arr, 0, sampleSizes[j] );
+			algoPicked = "Quick";
 			break;
 		case 5:
 			//Heap-sort
 			heapSort(arr, sampleSizes[j]);
+      algoPicked = "Heap";
 			break;
 		case 6:
 			//Counting sort
-            countSort(arr, sampleSizes[j]);
+			countSort( arr, sampleSizes[j] );
+			algoPicked = "Counting";
 			break;
 		case 7:
 			//Radix sort
-			radixSort(arr, sampleSizes[j]);
+			radixSort( arr, sampleSizes[j] );
+			algoPicked = "Radix";
 			break;
 
 		default:
@@ -466,7 +529,7 @@ int main()
 
 		auto endTime = Clock::now();
 
-		cout << "Sort " << input << " with " << sampleSizes[j] << " values: "
+		cout << algoPicked << " Sort " << "with " << sampleSizes[j] << " values: "
 			<< chrono::duration_cast<chrono::nanoseconds>(endTime - startTime).count()
 			<< " nanoseconds" << endl;
 

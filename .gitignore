@@ -1,4 +1,17 @@
-
+# Misc
 Assignment1.exe
 .vscode/c_cpp_properties.json
 .vscode/settings.json
+
+# TS/JS Files <- Used for student data
+src
+dist
+tsconfig.json
+
+# Dependencies
+node_modules
+package.json
+yarn.lock
+
+# Linter
+.eslintrc.js
