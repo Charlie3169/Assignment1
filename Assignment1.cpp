@@ -310,6 +310,7 @@ void quickSort( int array[], int low_index, int high_index ) {
 
 //Counting sort  method
 ////////////////////////////////////////////////////////////
+
 void countSort( int array[], int size ) {
 	int max = array[0];
 	int* sorted = new int[size + 1];
