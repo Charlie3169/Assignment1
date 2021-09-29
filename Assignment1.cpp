@@ -456,7 +456,7 @@ int main()
 	srand( (unsigned)time( 0 ) );
 
 	const int numberOfSorts = 7;
-	const int sampleSizes[] = { 10, 100, 500, 5000, 250000 };
+	const int sampleSizes[] = { 10, 100, 500, 5000, 25000 };
 
 	int input = 0;
 	string algoPicked;
