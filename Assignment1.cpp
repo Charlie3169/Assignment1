@@ -200,6 +200,11 @@ void countSort(int array[], int size) {
     count[array[i]]++;
   }
 
+  // Update count to have position of element in output.
+  for (i = 1; i <= max; ++i) {
+    count[i] += count[i - 1];
+  }
+
   // Take index from original array. Use to find element in count array.
   // Copy element into sorted array.
   for (i = size - 1; i >= 0; --i) {
