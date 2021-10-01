@@ -1,23 +1,28 @@
 # Assignment 1
+Group Members: Travis Hurst, Avery Mathis, Charles Phelps, and Guillermo Rached
 In this assignment, we are going to be investigating the actual performance of different sorting methods.  Additionally, we will implement 1 sorting method on a linked list.  
 
 # TASKS - WORKLOAD
 
 - 1.)
-  - a.	Bubble sort -Travis
-  - b.	Insertion sort-Guillermo
-  - c.	Merge-sort-Charlie
-  - d.	Quicksort-Avery
-  - e.	Heap-sort-Travis
-  - f.	Counting sort-Avery
-  - g.	Radix-sort-Charlie
+  - a.	Bubble sort - Travis
+  - b.	Insertion sort - Guillermo
+  - c.	Merge-sort - Charlie
+  - d.	Quicksort - Avery
+  - e.	Heap-sort - Travis
+  - f.	Counting sort - Avery
+  - g.	Radix-sort - Charlie
 
-##### Sort arrays size n= 10,100,500,5000,2500
-- 2.) get runtimes on all of these
-- 3.) 50 student single link list-Charlie API
-  - First Name, Last Name, MNumber and may include any other additional information you wish
-  - Bubble sort / merge-sort / quicksort -Charlie Adaptation?
-- 4.) Group write-up with instructions:
+##### Sorting Arrays, size n= 10,100,500,5000,2500
+- 2.) 
+  - a. Run 10 tests of each sort operation and record average time in a table. - Avery
+  - b. Analyze run time data given Big O notation for each sorting algorithm. - Travis
+
+##### Linked List Class
+- 3.) 
+  - a. Create student information that includes first name, last name, and MNumber. - Guillermo
+  - b. Menu interface and sorting algorithms for linked list. - Charlie
+
 
 
 # Introduction to GitHub and Collaboration with other developers
