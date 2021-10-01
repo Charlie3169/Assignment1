@@ -86,7 +86,7 @@ public:
 		temp = NULL;
 	}
 
-	// Deconstruct A.K.A delete sys32
+	// Deconstruct
 	~LinkedList()
 	{
 		curr = head;
@@ -165,6 +165,8 @@ public:
 			curr = curr->next;
 		}
 	}
+
+	
 };
 
 //Bubble sort method

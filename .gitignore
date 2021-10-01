@@ -4,7 +4,6 @@ Assignment1.exe
 .vscode/settings.json
 
 # TS/JS Files <- Used for student data
-src
 dist
 tsconfig.json
 
