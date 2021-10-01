@@ -86,7 +86,7 @@ public:
 		temp = NULL;
 	}
 
-	// Deconstruct A.K.A delete sys32
+	// Deconstruct
 	~LinkedList()
 	{
 		curr = head;
@@ -165,6 +165,8 @@ public:
 			curr = curr->next;
 		}
 	}
+
+	
 };
 
 //Bubble sort method
@@ -387,6 +389,11 @@ void countSort( int array[], int size ) {
 	for (i = 0; i < size; ++i) {
 		count[array[i]]++;
 	}
+  
+  // Update count to have position of element in output.
+    for (i = 1; i <= max; ++i) {
+      count[i] += count[i - 1];
+    }
 
 	// Take index from original array. Use to find element in count array.
 	// Copy element into sorted array.
@@ -456,7 +463,7 @@ int main()
 	srand( (unsigned)time( 0 ) );
 
 	const int numberOfSorts = 7;
-	const int sampleSizes[] = { 10, 100, 500, 5000, 250000 };
+	const int sampleSizes[] = { 10, 100, 500, 5000, 25000 };
 
 	int input = 0;
 	string algoPicked;
