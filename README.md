@@ -1,5 +1,6 @@
 # Assignment 1
 Group Members: Travis Hurst, Avery Mathis, Charles Phelps, and Guillermo Rached
+
 In this assignment, we are going to be investigating the actual performance of different sorting methods.  Additionally, we will implement 1 sorting method on a linked list.  
 
 # TASKS - WORKLOAD
