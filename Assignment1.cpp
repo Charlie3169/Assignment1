@@ -164,7 +164,7 @@ public:
 
 			curr = curr->next;
 		}
-	}
+	}	
 
 	//Will be used to achieve ascending/descending functionality
 	void reverse()
@@ -184,6 +184,120 @@ public:
         }
         head = prev;
     }
+
+	nodePtr* getHead()
+	{
+		return &head;
+	}
+
+	//Sorting Algorithms
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+
+	//Merge Sort
+	////////////////////////////////////////////////////////////	
+	
+	void MergeSort(Node** headRef)
+	{
+		Node* head = *headRef;
+		Node* a;
+		Node* b;
+	
+		//Base case -- length 0 or 1
+		if ((head == NULL) || (head->next == NULL)) {
+			return;
+		}
+	
+		//Split head into a and b sublists
+		FrontBackSplit(head, &a, &b);
+	
+		// Recursively sort the sublists
+		MergeSort(&a);
+		MergeSort(&b);
+	
+		// Merge the two sorted lists together
+		*headRef = SortedMerge(a, b);
+	}
+	
+
+	Node* SortedMerge(Node* a, Node* b)
+	{
+		Node* result = NULL;
+	
+		//Base cases
+		if (a == NULL)
+			return (b);
+		else if (b == NULL)
+			return (a);
+	
+		//Pick either a or b
+		if (a->student.getFirstName() <= b->student.getFirstName()) {
+			result = a;
+			result->next = SortedMerge(a->next, b);
+		}
+		else {
+			result = b;
+			result->next = SortedMerge(a, b->next);
+		}
+		return (result);
+	}	
+	
+	void FrontBackSplit(Node* source,
+						Node** frontRef, Node** backRef)
+	{
+		Node* fast;
+		Node* slow;
+		slow = source;
+		fast = source->next;	
+		
+		while (fast != NULL) {
+			fast = fast->next;
+			if (fast != NULL) {
+				slow = slow->next;
+				fast = fast->next;
+			}
+		}	
+		
+		*frontRef = source;
+		*backRef = slow->next;
+		slow->next = NULL;
+	}
+	////////////////////////////////////////////////////////////
+
+	//Bubble Sort
+	////////////////////////////////////////////////////////////
+
+	////////////////////////////////////////////////////////////
+
+
+
+
+
+	//Quick Sort
+	////////////////////////////////////////////////////////////
+
+	////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	
 };
@@ -491,7 +605,7 @@ int main()
 
 	//Initialize Linked List
 	LinkedList list;
-	list.getStudentData("students.txt");	
+	list.getStudentData("students.txt");		
 
 	cout << "1: Bubble" << endl
 		<< "2: Insertion" << endl
@@ -500,13 +614,23 @@ int main()
 		<< "5: Heap" << endl
 		<< "6: Counting" << endl
 		<< "7: Radix" << endl
-		<< "8: Merge - Linked List" << endl
-		<< "9: Bubble - Linked List" << endl
-		<< "10: Quick - Linked List" << endl
+		<< "8: Merge - Linked List(First Name)" << endl
+		<< "9: Bubble - Linked List(Last Name)" << endl
+		<< "10: Quick - Linked List(MNumber)" << endl
 		<< "Enter the number of the sort to test: ";
 
 	cin >> input;
 	cout << endl;
+
+	//Get sorting direction
+	//Output will be reversed if descending is entered, otherwise do nothing
+	int sortDirection = 0;		
+	if(input == 8 || input == 9 || input == 10)
+	{
+		cout << "Sort ascending(0) or descending(1)?";
+		cin >> sortDirection;
+		cout << endl;		
+	}
 
 	for (int j = 0; j < sizeof( sampleSizes ) / sizeof( sampleSizes[0] ); ++j)
 	{
@@ -562,8 +686,7 @@ int main()
 			if(j == 0) 
 			{
 				//Only gets called on the first loop through
-
-
+				list.MergeSort(list.getHead());
 				algoPicked = "MergeL";
 			}
 			
@@ -597,7 +720,11 @@ int main()
 		if(algoPicked == "MergeL" || algoPicked == "BubbleL" || algoPicked == "QuickL")
 		{
 			if(j == 0)
-			{
+			{				
+				if(sortDirection == 1)
+				{
+					list.reverse();
+				}
 				cout << algoPicked << " sort with 50 values: "
 				<< chrono::duration_cast<chrono::nanoseconds>(endTime - startTime).count()
 				<< " nanoseconds" << endl;
