@@ -102,7 +102,7 @@ public:
 	}
 
 	// Appends a new node to the list
-	void push( const Student& newStudent )
+	void push(const Student& newStudent )
 	{
 		nodePtr n = new Node;
 
@@ -125,7 +125,7 @@ public:
 		}
 	}
 
-	void getStudentData( string const fileName )
+	void getStudentData(string const fileName )
 	{
 		ifstream studentFile( fileName );
 
@@ -164,7 +164,140 @@ public:
 
 			curr = curr->next;
 		}
+	}	
+
+	//Will be used to achieve ascending/descending functionality
+	void reverse()
+    {
+        
+        Node* current = head;
+        Node *prev = NULL, *next = NULL;
+ 
+        while (current != NULL) 
+		{
+            
+            next = current->next;
+            current->next = prev;
+            
+            prev = current;
+            current = next;
+        }
+        head = prev;
+    }
+
+	nodePtr* getHead()
+	{
+		return &head;
 	}
+
+	//Sorting Algorithms
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+
+	//Merge Sort
+	////////////////////////////////////////////////////////////	
+	
+	void MergeSort(Node** headRef)
+	{
+		Node* head = *headRef;
+		Node* a;
+		Node* b;
+	
+		//Base case -- length 0 or 1
+		if ((head == NULL) || (head->next == NULL)) {
+			return;
+		}
+	
+		//Split head into a and b sublists
+		FrontBackSplit(head, &a, &b);
+	
+		// Recursively sort the sublists
+		MergeSort(&a);
+		MergeSort(&b);
+	
+		// Merge the two sorted lists together
+		*headRef = SortedMerge(a, b);
+	}
+	
+
+	Node* SortedMerge(Node* a, Node* b)
+	{
+		Node* result = NULL;
+	
+		//Base cases
+		if (a == NULL)
+			return (b);
+		else if (b == NULL)
+			return (a);
+	
+		//Pick either a or b
+		if (a->student.getFirstName() <= b->student.getFirstName()) {
+			result = a;
+			result->next = SortedMerge(a->next, b);
+		}
+		else {
+			result = b;
+			result->next = SortedMerge(a, b->next);
+		}
+		return (result);
+	}	
+	
+	void FrontBackSplit(Node* source,
+						Node** frontRef, Node** backRef)
+	{
+		Node* fast;
+		Node* slow;
+		slow = source;
+		fast = source->next;	
+		
+		while (fast != NULL) {
+			fast = fast->next;
+			if (fast != NULL) {
+				slow = slow->next;
+				fast = fast->next;
+			}
+		}	
+		
+		*frontRef = source;
+		*backRef = slow->next;
+		slow->next = NULL;
+	}
+	////////////////////////////////////////////////////////////
+
+	//Bubble Sort
+	////////////////////////////////////////////////////////////
+
+	////////////////////////////////////////////////////////////
+
+
+
+
+
+	//Quick Sort
+	////////////////////////////////////////////////////////////
+
+	////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	
 };
@@ -323,6 +456,8 @@ void quickSort( int array[], int low_index, int high_index ) {
 		quickSort( array, partition_index + 1, high_index );
 	}
 }
+
+
 ////////////////////////////////////////////////////////////
 //Heap-sort method
 // This function will be used to take the array and transform it to the heap
@@ -468,6 +603,10 @@ int main()
 	int input = 0;
 	string algoPicked;
 
+	//Initialize Linked List
+	LinkedList list;
+	list.getStudentData("students.txt");		
+
 	cout << "1: Bubble" << endl
 		<< "2: Insertion" << endl
 		<< "3: Merge" << endl
@@ -475,10 +614,23 @@ int main()
 		<< "5: Heap" << endl
 		<< "6: Counting" << endl
 		<< "7: Radix" << endl
+		<< "8: Merge - Linked List(First Name)" << endl
+		<< "9: Bubble - Linked List(Last Name)" << endl
+		<< "10: Quick - Linked List(MNumber)" << endl
 		<< "Enter the number of the sort to test: ";
 
 	cin >> input;
 	cout << endl;
+
+	//Get sorting direction
+	//Output will be reversed if descending is entered, otherwise do nothing
+	int sortDirection = 0;		
+	if(input == 8 || input == 9 || input == 10)
+	{
+		cout << "Sort ascending(0) or descending(1)?";
+		cin >> sortDirection;
+		cout << endl;		
+	}
 
 	for (int j = 0; j < sizeof( sampleSizes ) / sizeof( sampleSizes[0] ); ++j)
 	{
@@ -489,6 +641,7 @@ int main()
 		for (int i = 0; i < sampleSizes[j]; i++) {
 			arr[i] = (rand() % (2 * sampleSizes[j]));
 		}
+		
 
 		auto startTime = Clock::now();
 
@@ -496,7 +649,7 @@ int main()
 		{
 		case 1:
 			//Bubble sort
-      bubbleSort(arr, sampleSizes[j]);
+      		bubbleSort(arr, sampleSizes[j]);
 			algoPicked = "Bubble";
 			break;
 		case 2:
@@ -516,7 +669,7 @@ int main()
 		case 5:
 			//Heap-sort
 			heapSort(arr, sampleSizes[j]);
-      algoPicked = "Heap";
+      		algoPicked = "Heap";
 			break;
 		case 6:
 			//Counting sort
@@ -528,6 +681,33 @@ int main()
 			radixSort( arr, sampleSizes[j] );
 			algoPicked = "Radix";
 			break;
+		case 8:
+			//Mergesort - Linked List
+			if(j == 0) 
+			{
+				//Only gets called on the first loop through
+				list.MergeSort(list.getHead());
+				algoPicked = "MergeL";
+			}
+			
+			break;
+		case 9:
+			//Bubblesort - Linked List
+			if(j == 0)
+			{
+				
+				algoPicked = "BubbleL";
+			}			
+			break;
+		case 10:
+			//Quicksort - Linked List
+			if(j == 0)
+			{
+
+
+				algoPicked = "QuickL";
+			}
+			break;
 
 		default:
 			cout << "Invalid input" << endl;
@@ -535,13 +715,36 @@ int main()
 		}
 
 		auto endTime = Clock::now();
+		
+		//Linked List Display
+		if(algoPicked == "MergeL" || algoPicked == "BubbleL" || algoPicked == "QuickL")
+		{
+			if(j == 0)
+			{				
+				if(sortDirection == 1)
+				{
+					list.reverse();
+				}
+				cout << algoPicked << " sort with 50 values: "
+				<< chrono::duration_cast<chrono::nanoseconds>(endTime - startTime).count()
+				<< " nanoseconds" << endl;
 
-		cout << algoPicked << " Sort " << "with " << sampleSizes[j] << " values: "
+				cout << "Sorted Values: " << endl;
+				list.printData();
+			}
+		}
+		else
+		{
+			cout << algoPicked << " Sort " << "with " << sampleSizes[j] << " values: "
 			<< chrono::duration_cast<chrono::nanoseconds>(endTime - startTime).count()
 			<< " nanoseconds" << endl;
+		}
+
+		
 
 		// cleanup
-		delete[] arr;
+		delete[] arr;	
+		//No point in deleting the linked list
 	}
 
 	return 0;
