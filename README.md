@@ -22,7 +22,10 @@ In this assignment, we are going to be investigating the actual performance of d
 ##### Linked List Class
 - 3.) 
   - a. Create student information that includes first name, last name, and MNumber. - Guillermo
-  - b. Menu interface and sorting algorithms for linked list. - Charlie
+  - b. Menu interface for linked list. - Charlie
+  - c. Merge sort for linked list. - Charlie
+  - d. Bubble sort for linked list. - Travis
+  - e. Quick sort for linked list. - Avery
 
 
 
