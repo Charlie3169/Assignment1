@@ -5,6 +5,7 @@ In this assignment, we are going to be investigating the actual performance of d
 
 # TASKS - WORKLOAD
 
+##### Sorting Arrays Implementation 
 - 1.)
   - a.	Bubble sort - Travis
   - b.	Insertion sort - Guillermo
@@ -14,7 +15,7 @@ In this assignment, we are going to be investigating the actual performance of d
   - f.	Counting sort - Avery
   - g.	Radix-sort - Charlie
 
-##### Sorting Arrays, size n= 10,100,500,5000,2500
+##### Sorting Arrays Testing and Analyzation 
 - 2.) 
   - a. Run 10 tests of each sort operation and record average time in a table. - Avery
   - b. Analyze run time data given Big O notation for each sorting algorithm. - Travis
