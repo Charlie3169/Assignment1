@@ -190,6 +190,14 @@ public:
 		return &head;
 	}
 
+    // Gets last node of linked list.
+    Node *getTail(Node *current) {
+      while ((current != NULL) && (current->next != NULL)) {
+        current = current->next;
+      }
+      return current;
+    }
+
 	//Sorting Algorithms
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
@@ -277,29 +285,86 @@ public:
 	////////////////////////////////////////////////////////////
 
 	////////////////////////////////////////////////////////////
+    // Partition list using last element as pivot
+    Node *partition(Node *head, Node *last, Node **updateHead, Node **updateLast) {
+      Node *pivot = last;
+      Node *previous = NULL;
+      Node *current = head;
+      Node *tail = pivot;
 
+      // Update head and last element of list with updateHead and updateLast variables
+      // if head and last change
+      while (current != pivot) {
+        if (current->student.getFirstName() <= pivot->student.getFirstName()) {
+          // New head becomes node with value less than pivot (last element)
+          if ((*updateHead) == NULL) {
+            (*updateHead) = current;
+          }
+          previous = current;
+          current = current->next;
+        } else {
+          // Current node greater than pivot, move current to next to tail
+          if (previous) {
+            previous->next = current->next;
+          }
+          Node *temp = current->next;
+          current->next = NULL;
+          tail->next = current;
+          tail = current;
+          current = temp;
+        }
+      }
 
+      // If pivot is smallest, pivot becomes head
+      if ((*updateHead) == NULL) {
+        (*updateHead) = pivot;
+      }
 
+      // Last is updated to tail
+      (*updateLast) = tail;
 
+      return pivot;
+    }
 
+    // Sorting exclusive of last
+    Node *quickSortRecursion(Node *head, Node *last) {
+      // Base case
+      if (!head || head == last) {
+        return head;
+      }
 
+      Node *updateHead = NULL;
+      Node *updateLast = NULL;
 
+      // Partition list
+      Node *pivot = partition(head, last, &updateHead, &updateLast);
 
+      // If pivot smallest, no recursion needed on left side
+      if (updateHead != pivot) {
+        Node *temp = updateHead;
+        while (temp->next != pivot) {
+          temp = temp->next;
+        }
+        temp->next = NULL;
 
+        // Recursion is used for before pivot
+        updateHead = quickSortRecursion(updateHead, temp);
 
+        temp = getTail(updateHead);
+        temp->next = pivot;
+      }
 
+      // Recursion for after pivot
+      pivot->next = quickSortRecursion(pivot->next, updateLast);
 
+      return updateHead;
+    }
 
-
-
-
-
-
-
-
-
-
-	
+    // Main quick sort function utilizing recursion function
+    void QuickSort(Node **headRef) {
+      (*headRef) = quickSortRecursion(*headRef, getTail(*headRef));
+      return;
+    }
 };
 
 //Bubble sort method
@@ -703,8 +768,7 @@ int main()
 			//Quicksort - Linked List
 			if(j == 0)
 			{
-
-
+                list.QuickSort(list.getHead());
 				algoPicked = "QuickL";
 			}
 			break;
