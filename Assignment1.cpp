@@ -321,7 +321,6 @@ public:
 		}
         else{
           *headRef = BubbleSort1(a, b, nodes);
-        return;
         }
     }
 
