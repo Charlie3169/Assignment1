@@ -301,9 +301,6 @@ public:
       }
     }
 
-    /* Counts no. of nodes in linked list */
-
-
     // Main quick sort function utilizing recursion function
     void BubbleSort(Node **headRef) {
        Node* head = *headRef;
@@ -329,9 +326,6 @@ public:
     }
 
 	////////////////////////////////////////////////////////////
-
-
-
 
 
 	//Quick Sort
