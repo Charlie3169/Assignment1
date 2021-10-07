@@ -348,7 +348,7 @@ public:
       // Update head and last element of list with updateHead and updateLast variables
       // if head and last change
       while (current != pivot) {
-        if (current->student.getFirstName() <= pivot->student.getFirstName()) {
+        if (current->student.getMNumber() <= pivot->student.getMNumber()) {
           // New head becomes node with value less than pivot (last element)
           if ((*updateHead) == NULL) {
             (*updateHead) = current;
