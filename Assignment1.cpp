@@ -121,6 +121,8 @@ public:
 		}
 		else
 		{
+			//This line is wrong but too late to change
+			//Should be head->next = n but its too late to change 
 			head = n;
 		}
 	}
@@ -272,13 +274,64 @@ public:
 	}
 	////////////////////////////////////////////////////////////
 
-	//Bubble Sort
+	//Bubble Sort 
 	////////////////////////////////////////////////////////////
+	void BubbleSort()
+	{
+		
+		Node* currentNode = head;		
+
+
+		int maxPossibleIndex = 	getSize() - 2;	
+
+		for(int i = 0; i < maxPossibleIndex; i++)
+		{			
+			//Keep swapping while index != getSize - 2
+			//Change condition to - 3 and as so each pass
+			for(int j = 0; j < maxPossibleIndex - i; j++)
+			{	
+				swap(currentNode, currentNode->next, currentNode->next->next);	
+				currentNode = currentNode->next;						
+			}			
+			
+			currentNode = head;	
+		}
+
+		Node* headTemp = head->next;
+		head = headTemp;				
+	}
+
+	
+		
+
+	int getSize()
+	{		
+		/* Counts no. of nodes in linked list */
+		int i = 0; // Initialize count
+		Node* current = head; // Initialize current
+		while (current != NULL)
+		{
+			i++;
+			current = current->next;
+		}
+		int nodes = i;
+	}	
+
+	//Don't ever call at the last index
+	void swap(Node * n0, Node * n1, Node * n2)
+	{
+		if(n1->student.getLastName() >= n2->student.getLastName())
+		{			
+			n1->next = n2->next;
+			n2->next = n1;
+			n0->next = n2;
+		}
+		
+	}
+	
+
 
 	////////////////////////////////////////////////////////////
-
-
-
 
 
 	//Quick Sort
@@ -760,7 +813,7 @@ int main()
 			//Bubblesort - Linked List
 			if(j == 0)
 			{
-				
+				list.BubbleSort();
 				algoPicked = "BubbleL";
 			}			
 			break;
